@@ -1,0 +1,130 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block body %}
+
+ {% if user.is_authenticated %}
+<h2>
+  Listing:
+</h2>
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-info">
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="row">
+  <div class="col-md-4">
+
+    <div class="col text-center">
+      <img src="{{listing.image }}" alt="image" style="width:250px; height:auto" alt=" image">
+      <h3>{{listing.category.name}}</h3>
+      <h3>{{listing.title}}</h3>
+      <h6 class="card-text text-muted"> Description: {{listing.description}}</h6>
+      <h4 class="card-body text-primary"> Price:${{listing.price}}</h4>
+      <p class="card-text text-text"> Sale Ends: {{listing.end_datetime}}</p>
+      <p class="card-text text-text"> Seller: {{listing.seller}}</p>
+  
+  <br>
+      <a href="{% url 'add_to_watchlist' listing.id %}" class="btn btn-primary btn-primary"
+      style = "
+      border: 2px solid green">
+  Add to Watchlist 👓
+</a>   
+<hr>
+  <!-- comments -->
+<h6 class="card-header "> Comments:</h6> 
+ 
+ <br>
+ <br>
+{%for comment in comments %}
+<strong> {{comment.user}}</strong> on <span class=" text-muted"> {{comment.comment_date_created}}</span>
+<h5>{{comment.body| linebreaks}}</h5>
+ {%empty%}
+<p>No comments found.</p> 
+{%endfor%}
+
+<div class="card-body">
+        {% if user_comment %}
+         {{ message }}
+        
+        {% else %}
+
+        <a href="{% url 'new_comment'  %}" class="btn btn-primary btn-primary">
+          Add New Comment
+        </a>
+         
+          
+        {% endif %}
+      </div>
+<br/>
+<hr>
+<!-- bids -->
+</h1> Bids:</h1> 
+ <br>
+ <br>
+{%for bid in bids %}
+<strong> {{bid.bidder}}</strong> on <span class=" text-muted"> {{bid.date}}</span>
+<h5>{{bid.bid| linebreaks}}</h5>
+ {%empty%}
+<p>No bids on this listing yet.</p> 
+{%endfor%}
+
+<div class="card-body">
+        {% if user_bid %}
+         {{ message }}
+        
+        {% else %}
+        <h3>Add Your Bid 😃</h3>
+<table>
+       <form method="post" style="margin-top: 1.3em;">
+           {% csrf_token %}
+          {{ bid_form.as_p }}
+         
+          <button type="submit" class="btn btn-primary  btn-lg">Add Your Bid </button>
+        </form>
+      </table>
+        {% endif %}
+      </div>
+
+
+
+
+<div class="card border-primary mb-3" style="max-width: 18rem;">
+
+<h5>Highest bid: <strong>{{max_bid}}$ </strong></h5>
+
+</div>
+{%if user.is_superuser %}
+<a href="{% url 'close_auction' listing.id %}" class=" btn btn-primary">
+  Close Auction 🛑
+</a>
+
+
+{%else%}
+
+<br>
+<br>
+
+
+{% endif %}
+
+{%else %}
+<h1>Must sign in first</h1>
+   
+{% endif %}
+   
+       
+        <br>
+       <br>
+      <a href="{% url 'index' %}" class=" btn btn-primary">
+        Back
+      </a>
+    </div>
+  </div>
+
+</div>
+ 
+{% endblock %}

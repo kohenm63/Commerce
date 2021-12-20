@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="row">
+  <div class="col-md-4">
+
+    <div class="col text-center">
+      {%if categories%}
+    {%for listing in category_items%}
+    
+      <h2> {{listing.category.name}}</h2>
+
+  
+      <img class=" card-img " src=" {{media_url}}{{listing.image }}" alt=" image" />
+      <div class="card-body" class="col">
+        
+        <h4 class="card-title text-body">{{listing.title}}</h4>
+        
+        <h6 class="card-text text-muted"> Description: {{listing.description}}</h6>
+        
+        <h4 class="card-body text-primary"> Price:${{listing.price}}</h4>
+        
+        <p class="card-text text-text"> Sale Ends: {{listing.end_datetime}}</p>
+       
+        <p class="card-text text-text"> Seller: {{listing.seller}}</p>
+
+    </div>
+  </div>
+  </div>
+  </div>
+  
+{% endfor%}
+
+{%else%}
+<alert class='alert-warning'>No items in this category </alert>
+{%endif%}
+
+      {%endblock%}

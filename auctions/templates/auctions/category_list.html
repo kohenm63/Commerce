@@ -1,0 +1,36 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h1>Categories</h1>
+
+
+
+{%if categories%}
+
+{%for category in categories%}
+
+<div class="row">
+  <div class="col-md-4">
+
+    <div class="card" class="text-center">
+
+      <div class="card-body">
+
+        <h5>{{ category.name }}</h5>
+        
+       
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+{%endfor%}
+
+{%else%} <h3>List is empty</h3>
+
+{%endif%}
+
+{%endblock%}

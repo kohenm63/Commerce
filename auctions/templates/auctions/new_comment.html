@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h2>New Comment</h2>
+<table>
+  <form action="{% url 'new_comment' %}" method="post">
+    {% csrf_token %}
+
+    {{form.as_p}}
+
+    <input class="btn btn-primary" type="submit" value="Add New Comment">
+  </form> 
+</table>
+<a href="{% url 'index' %}" class=" btn btn-primary">
+        Back
+      </a>
+{% endblock %}
